@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      a {
+        text-decoration: none;
+        color: white;
+      }
+      button {
+        border: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        margin-top: 40px;
+        background-color: teal;
+    }
+    #nav{
+        background-color: rgb(174, 174, 174);
+    }
+    nav{
+          font-weight: bold;
+          width: 40%;
+          display: flex;
+          justify-content: space-around;
+      }
+    </style>
+  </head>
+  <body>
+      <div id="nav">
+    <nav>
+
+    </nav>
+    </div>
+    <button>
+      <a href="./dashbord.html">Dashboard</a>
+    </button>
+    <h1>Add Students Data</h1>
+    <form id="students_data" onsubmit="storeData()">
+      <input type="text" placeholder="Name" id="name" />
+      <input type="text" placeholder="Course" id="course" />
+      <input type="namber" placeholder="Unit" id="unit" />
+      <input type="text" placeholder="Image" id="image" />
+      <input type="number" placeholder="Ft-Web Batch No." id="batch" />
+      <input type="submit" />
+    </form>
+  </body>
+</html>
+<script>
+  function storeData() {
+    event.preventDefault();
+    let form = document.querySelector("#students_data");
+    let name = form.name.value;
+    let image = form.image.value;
+    let course = form.course.value;
+    let unit = form.unit.value;
+    let batch = form.batch.value;
+    if (name !== "" && course !== "" && unit !== "" && batch !== "") {
+      let f1 = new StudentObj(name, course, unit, batch, image);
+      studentArr.push(f1);
+      localStorage.setItem("studentData", JSON.stringify(studentArr));
+      document.querySelector("#students_data").reset();
+    } else {
+      alert("fill all details");
+    }
+  }
+
+  let studentArr = JSON.parse(localStorage.getItem("studentData")) || [];
+  function StudentObj(n, c, u, b, i) {
+    this.name = n;
+    this.course = c;
+    this.unit = u;
+    this.image = i;
+    this.batch = `Ft-Web${b}`;
+  }
+
+  function calc() {
+      let nav = document.querySelector("nav");
+    let data = JSON.parse(localStorage.getItem("studentData"));
+    var obj = {};
+    for (let i = 0; i < data.length; i++) {
+      if (!obj[data[i].batch]) {
+        obj[data[i].batch] = 0;
+      }
+    }
+    for (let i = 0; i < data.length; i++) {
+      obj[data[i].batch]++;
+    }
+//    console.log(obj) 
+   for(var j in obj){
+       var p = document.createElement("p");
+       p.innerText= `${j} - ${obj[j]}`
+       nav.append(p)
+    //    console.log(p.innerText)
+
+   }
+
+        
+    }
+    calc();
+
+
+</script>
