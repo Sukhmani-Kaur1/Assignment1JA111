@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      #navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 70%;
+        margin: auto;
+        position: fixed;
+        left: 190px;
+        top: 20px;
+      }
+      #navbar a {
+        text-decoration: none;
+        color: black;
+        font-weight: bold;
+      }
+      #menu h3 {
+        font-size: 20px;
+        text-align: center;
+      }
+      #menu {
+        margin-top: 60px;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+      }
+      #menu img {
+        width: 100%;
+      }
+      #menu button {
+        border: none;
+        background-color: green;
+        color: white;
+        padding: 10px 15px;
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="navbar">
+      <!--Add navbar divs here-->
+      <p><a href="#">Login</a></p>
+      <p><a href="#">Signup</a></p>
+      <p><a href="index.html">Products</a></p>
+      <p><a href="bucket.html">Bucket</a></p>
+      <!-- Link to bucket.html -->
+      <div id="coffee_count">
+        <!--Show total number of coffee added to bucket here, do not add anything only Total count. Not even "Count - 5" but like this "5" -->
+      </div>
+    </div>
+
+    <div id="menu">
+      <!--Show coffee list here in grid format-->
+      <!-- add an add to bucket button to each item, give it HTML id as 'add_to_bucket' -->
+    </div>
+  </body>
+</html>
+<script>
+  // url =  https://masai-mock-api.herokuapp.com/coffee/menu
+  //show type image price and button add to bucket
+  let coffee_count = document.querySelector("#coffee_count");
+  let displayDiv = document.getElementById("menu");
+  async function getMenuList() {
+    try {
+      let url = `https://masai-mock-api.herokuapp.com/coffee/menu`;
+      let res = await fetch(url);
+      let data = await res.json();
+      console.log(data.menu.data);
+      append(data.menu.data);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  getMenuList();
+  let arr = JSON.parse(localStorage.getItem("coffee")) || [];
+  function append(data) {
+    data.forEach(function (el) {
+      let div = document.createElement("div");
+      let img = document.createElement("img");
+      img.src = el.image;
+      let type = document.createElement("h3");
+      type.innerText = el.title;
+      let pric = document.createElement("p");
+      pric.textContent = `₹${el.price}`;
+      let btn = document.createElement("button");
+      btn.innerText = "ADD TO BUCKET";
+      btn.addEventListener("click", function () {
+        if (arr.includes(el)) {
+          alert("item is alerdy in the cart");
+        } else {
+          arr.push(el);
+          localStorage.setItem("coffee", JSON.stringify(arr));
+        }
+      });
+      div.append(img, type, pric, btn);
+      displayDiv.append(div);
+    });
+  }
+</script>

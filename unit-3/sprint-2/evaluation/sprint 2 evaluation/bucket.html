@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    #navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 70%;
+      margin: auto;
+      position: fixed;
+      left: 190px;
+      top: 20px;
+    }
+    #navbar a {
+      text-decoration: none;
+      color: black;
+      font-weight: bold;
+    }
+    #bucket {
+      margin-top: 60px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+    #bucket img {
+      width: 100%;
+    }
+    #bucket button {
+      border: none;
+      background-color: red;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 5px;
+    }
+    #total-div {
+      width: 30%;
+      margin-top: 70px;
+      display: flex;
+      justify-content: space-between;
+    }
+    #total-div button {
+      border: none;
+      background-color: rgb(255, 157, 0);
+      color: white;
+      padding: 10px 15px;
+      border-radius: 5px;
+    }
+    a {
+      text-decoration: none;
+      color: #ffffff;
+    }
+  </style>
+
+  <body>
+    <div id="navbar">
+      <!--Add navbar divs here-->
+      <p><a href="#">Login</a></p>
+      <p><a href="#">Signup</a></p>
+      <p><a href="index.html">Products</a></p>
+      <p><a href="bucket.html">Bucket</a></p>
+      <!-- Link to bucket.html -->
+      <div id="coffee_count">
+        <!--Show total number of coffee added to bucket here, do not add anything only Total count. Not even "Count - 5" but like this "5" -->
+      </div>
+    </div>
+
+    <div id="total-div">
+      <button><a href="checkout.html">Checkout</a></button>
+      <h3 id="total_amount">
+        <!--Show bucket total here, do not add anything only Total value. Not even "Total - 1200Rs" but like this "1200" -->
+      </h3>
+    </div>
+    <div id="bucket">
+      <!--Show all coffee added to bucket here-->
+      <!-- add an remove button to each coffee so that you can remove that item from bucket, give the button HTML id as 'remove_coffee' -->
+    </div>
+
+    <!-- checkout link  -->
+  </body>
+</html>
+<script>
+  let data = JSON.parse(localStorage.getItem("coffee")) || [];
+  let displayDiv = document.querySelector("#bucket");
+  // console.log(data)
+  append(data);
+  var total = 0;
+  function append(data) {
+    data.forEach(function (el, i) {
+      let div = document.createElement("div");
+      let img = document.createElement("img");
+      img.src = el.image;
+      let type = document.createElement("h3");
+      type.innerText = el.title;
+      let pric = document.createElement("p");
+      pric.textContent = `₹${el.price}`;
+      let btn = document.createElement("button");
+      btn.innerText = "REMOVE";
+      btn.addEventListener("click", function () {
+        data.splice(i, 1);
+        localStorage.setItem("coffee", JSON.stringify(data));
+        window.location.reload();
+      });
+      div.append(img, type, pric, btn);
+      displayDiv.append(div);
+    });
+    document.querySelector("#total_amount").append(0);
+  }
+</script>
