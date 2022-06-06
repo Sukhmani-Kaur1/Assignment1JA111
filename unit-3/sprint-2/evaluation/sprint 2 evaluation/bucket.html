@@ -92,10 +92,9 @@
 </html>
 <script>
   let data = JSON.parse(localStorage.getItem("coffee")) || [];
+  let totalAmount = document.getElementById("total_amount");
   let displayDiv = document.querySelector("#bucket");
-  // console.log(data)
   append(data);
-  var total = 0;
   function append(data) {
     data.forEach(function (el, i) {
       let div = document.createElement("div");
@@ -115,6 +114,5 @@
       div.append(img, type, pric, btn);
       displayDiv.append(div);
     });
-    document.querySelector("#total_amount").append(0);
   }
 </script>

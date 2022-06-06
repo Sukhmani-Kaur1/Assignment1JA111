@@ -78,7 +78,7 @@
       let url = `https://masai-mock-api.herokuapp.com/coffee/menu`;
       let res = await fetch(url);
       let data = await res.json();
-      console.log(data.menu.data);
+      // console.log(data.menu.data);
       append(data.menu.data);
     } catch (err) {
       console.log(err);
@@ -105,8 +105,18 @@
           localStorage.setItem("coffee", JSON.stringify(arr));
         }
       });
+
       div.append(img, type, pric, btn);
       displayDiv.append(div);
     });
+    // console.log(arr)
+    let p = document.createElement("p");
+    for (var j of arr) {
+      coffee_count.innerHTML = null;
+      // console.log(arr.length)
+      p.innerText = arr.length;
+    }
+    console.log(p);
+    coffee_count.append(p);
   }
 </script>
